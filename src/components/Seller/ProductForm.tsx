@@ -67,7 +67,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSa
       }
 
       onSave();
-    } catch (err: any) {
+    } catch (err: Error) {
       setError(err.message);
     } finally {
       setLoading(false);
