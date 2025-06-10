@@ -16,6 +16,9 @@ export const useAuth = () => {
       } else {
         setLoading(false);
       }
+    }).catch(error => { // This is the new block
+      console.error('Error fetching initial Supabase session:', error);
+      setLoading(false);
     });
 
     // Listen for auth changes
