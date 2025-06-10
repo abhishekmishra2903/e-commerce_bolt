@@ -15,14 +15,21 @@ export const SellerDashboard: React.FC = () => {
     if (profile?.user_type === 'seller') {
       fetchProducts();
     }
-  }, [profile]);
+  }, [profile, fetchProducts]);
 
-  const fetchProducts = async () => {
+  const fetchProducts = React.useCallback(async () => {
+    // Ensure profile and profile.id are available before using them
+    if (!profile?.id) {
+      // Optionally set loading to false or handle appropriately
+      // if profile.id is not yet available but was expected.
+      // For now, just return to prevent error.
+      return;
+    }
     try {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .eq('seller_id', profile?.id)
+        .eq('seller_id', profile.id) // profile.id is now safe to use
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -32,7 +39,7 @@ export const SellerDashboard: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [profile?.id, setProducts, setLoading]); // Added setProducts and setLoading as per ESLint best practices for useCallback
 
   const handleProductSaved = () => {
     setShowProductForm(false);

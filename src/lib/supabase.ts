@@ -17,9 +17,17 @@ export interface UserProfile {
   user_type: 'buyer' | 'seller';
   avatar_url?: string;
   phone?: string;
-  address?: any;
+  address?: AddressInfo;
   created_at: string;
   updated_at: string;
+}
+
+export interface AddressInfo {
+  street: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
 }
 
 export interface DatabaseProduct {
@@ -42,7 +50,7 @@ export interface Order {
   buyer_id: string;
   total_amount: number;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  shipping_address: any;
+  shipping_address?: AddressInfo;
   created_at: string;
   updated_at: string;
 }
@@ -51,7 +59,7 @@ export interface OrderItem {
   id: string;
   order_id: string;
   product_id: string;
-  customization: any;
+  customization?: Record<string, string | number>;
   quantity: number;
   unit_price: number;
   total_price: number;
